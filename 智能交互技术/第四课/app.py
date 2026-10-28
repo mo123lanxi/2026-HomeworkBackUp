@@ -63,9 +63,9 @@ class SoundApp:
         if not text.strip():
             return
         print("正在请求百度API合成语音...")
-        APP_ID ='8100361'
-        API_KEY = '2pHgyZOeePr8GHpJF4C7DvxO'
-        SECRET_KEY ='SF85OIWanjlTPNXQeS0hjF9WqGIeoTpq'
+        APP_ID =''
+        API_KEY = ''
+        SECRET_KEY =''
         
         try:
             client = AipSpeech(APP_ID, API_KEY, SECRET_KEY)
