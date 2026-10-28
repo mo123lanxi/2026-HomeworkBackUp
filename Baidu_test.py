@@ -1,8 +1,8 @@
 from aip import AipSpeech
 def baidu_to_audio(self,text):
-        APP_ID ='8100361'
-        API_KEY = '2pHgyZOeePr8GHpJF4C7DvxO'
-        SECRET_KEY ='SF85OIWanjlTPNXQeS0hjF9WqGIeoTpq'
+        APP_ID =''
+        API_KEY = ''
+        SECRET_KEY =''
         client = AipSpeech(APP_ID,API_KEY,SECRET_KEY)
         file = 'baidu.wav' 
         synth_context=client.synthesis(text,'zh',1,
