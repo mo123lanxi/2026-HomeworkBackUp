@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>案例3 各销售环节转化率漏斗图</title>
+  <!-- 引入 ECharts 文件 -->
+  <script src="js/echarts.js"></script>
+  <style>
+    body { margin: 0; padding: 20px; font-family: "Microsoft YaHei", Arial, sans-serif; background: #f7f9fc; }
+    #watermark {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ctext x='100' y='100' font-size='16' fill='rgba(0,0,0,0.18)' text-anchor='middle' transform='rotate(-30 100 100)'%3E%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+  </style>
+</head>
+<body>
+
+  <div id="main" style="width:1000px; height:500px; display:block;"></div>
+  <div id="watermark"></div> 
+  <script type="text/javascript">
+
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var funnelData = [
+      { value: 100, name: '总订单数' },
+      { value: 90,  name: '订单付款数' },
+      { value: 65,  name: '到款订单数' },
+      { value: 64,  name: '全部到款订单数' }
+    ];
+
+    function convertRate(index) {
+      if (index === 0) { return '100.0%'; }
+      var prev = funnelData[index - 1].value;
+      var cur = funnelData[index].value;
+      return (cur / prev * 100).toFixed(1) + '%';
+    }
+
+    var option = {
+      color: ['#872f19', '#915f4d', '#b9a494', '#e0d2c4'],
+
+      title: {
+        text: '农村电商销售环节转化率漏斗图',
+        subtext: '数据来源：项目3 实验数据（单位：%）',
+        left: 'center',
+        top: 10,
+        textStyle: { fontSize: 20, fontWeight: 'bold', color: '#2c3e50' },
+        subtextStyle: { fontSize: 12, color: '#999' }
+      },
+
+      tooltip: {
+        trigger: 'item',
+        backgroundColor: 'rgba(50,50,50,0.85)',
+        borderColor: '#333',
+        textStyle: { color: '#fff' },
+        formatter: function (params) {
+          var idx = params.dataIndex;
+          return '<b>' + params.name + '</b><br/>' +
+                 '转化率：' + params.value + '%<br/>' +
+                 '环节间转化率：' + convertRate(idx);
+        }
+      },
+
+      legend: {
+        orient: 'vertical',
+        right: 60,
+        top: 'center',
+        itemGap: 18,
+        textStyle: { fontSize: 13 },
+        data: funnelData.map(function (i) { return i.name; })
+      },
+
+      toolbox: {
+        show: true,
+        right: 30,
+        top: 20,
+        feature: {
+          dataView: { show: true, readOnly: false, title: '数据视图' },
+          restore: { show: true, title: '还原' },
+          saveAsImage: { show: true, title: '保存为图片', name: '销售环节转化率漏斗图' }
+        }
+      },
+
+      series: [
+        {
+          name: '销售环节转化率',
+          type: 'funnel',
+          left: '12%',
+          top: 100,
+          bottom: 40,
+          width: '52%',
+          min: 0,
+          max: 100,
+          minSize: '18%',          
+          maxSize: '100%',
+          sort: 'descending',      
+          gap: 4,                  
+          funnelAlign: 'center',
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{b}\n{c}%',
+            fontSize: 13,
+            fontWeight: 'bold',
+            color: '#fff'
+          },
+          labelLine: { length: 16, lineStyle: { width: 1, type: 'solid' } },
+          itemStyle: {
+            borderColor: '#fff',
+            borderWidth: 2,
+            shadowBlur: 8,
+            shadowColor: 'rgba(0,0,0,0.15)'
+          },
+          emphasis: {
+            label: { fontSize: 15 },
+            itemStyle: { shadowBlur: 16, shadowColor: 'rgba(0,0,0,0.3)' }
+          },
+          data: funnelData
+        }
+      ]
+    };
+
+    myChart.setOption(option);
+
+    window.addEventListener('resize', function () {
+      myChart.resize();
+    });
+  </script>
+</body>
+</html>

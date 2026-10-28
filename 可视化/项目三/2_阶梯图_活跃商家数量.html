@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>案例2 活跃商家数量阶梯图</title>
+  <!-- 引入 ECharts 文件 -->
+  <script src="js/echarts.js"></script>
+  <style>
+    body { margin: 0; padding: 20px; font-family: "Microsoft YaHei", Arial, sans-serif; background: #f7f9fc; }
+    #main  { width: 1000px; height: 500px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    
+   #watermark {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ctext x='100' y='100' font-size='16' fill='rgba(0,0,0,0.18)' text-anchor='middle' transform='rotate(-30 100 100)'%3E%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+</style>
+</head>
+<body>
+  <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+  <div id="main" style="width:1000px; height:500px; display:block;"></div>
+  <div id="watermark"></div> 
+  <script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var months = ['7月', '8月', '9月', '10月', '11月', '12月'];
+
+    var seriesData = [
+      { name: '粮食作物商家', data: [600.1, 640.0, 620.2, 689.3, 750.8, 699.7] },
+      { name: '蔬菜商家',     data: [508.1, 530.0, 510.2, 540.3, 633.8, 598.7] },
+      { name: '水果商家',     data: [560.1, 561.0, 543.2, 559.3, 596.8, 560.7] },
+      { name: '肉类商家',     data: [318.1, 332.0, 320.2, 340.3, 378.8, 329.7] },
+      { name: '油料作物商家', data: [150.1, 156.0, 144.2, 138.3, 166.8, 154.7] }
+    ];
+
+    var series = seriesData.map(function (item) {
+      return {
+        name: item.name,
+        type: 'line',
+        step: 'end',          
+        data: item.data,
+        symbol: 'circle',
+        symbolSize: 5,
+        itemStyle: { borderColor: '#fff', borderWidth: 1 },
+        showSymbol: true,
+        lineStyle: { width: 2 },
+        emphasis: { focus: 'series' },
+                label: {
+          show: false,
+          position: 'top',
+          fontSize: 10
+        }
+      };
+    });
+
+    series.map(s => {
+  s.label = { show: true, position: 'top', fontSize: 10, formatter: p => Math.round(p.value) };
+  s.labelLayout = { hideOverlap: true };
+  return s;
+});
+
+
+    var option = {
+      color: ['#5470C6', '#91CC75', '#FAC858', '#EE6666', '#73C0DE'],
+
+      title: {
+        text: '农村电商各品类活跃商家数量趋势（阶梯图）',
+        left: 'center',
+        top: 10,
+        textStyle: { fontSize: 20, fontWeight: 'bold', color: '#2c3e50' },
+        subtextStyle: { fontSize: 12, color: '#999' }
+      },
+
+      
+
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        backgroundColor: 'rgba(50,50,50,0.85)',
+        borderColor: '#333',
+        textStyle: { color: '#fff' },
+        valueFormatter: function (v) { return v + ' 家'; }
+      },
+
+      legend: {
+        data: seriesData.map(function (i) { return i.name; }),
+        top: 65,
+        itemGap: 20,
+        textStyle: { fontSize: 12 }
+      },
+
+      toolbox: {
+        show: true,
+        right: 20,
+        top: 65,
+        feature: {
+          dataView: { show: true, readOnly: false, title: '数据视图' },
+          magicType: { show: true, type: ['line', 'bar'], title: { line: '折线图', bar: '柱状图' } },
+          restore: { show: true, title: '还原' },
+          saveAsImage: { show: true, title: '保存为图片', name: '活跃商家数量阶梯图' }
+        }
+      },
+
+      xAxis: {
+        type: 'category',
+        data: months,
+        boundaryGap: true,
+        name: '月份',
+        axisTick: { alignWithLabel: true },
+        axisLabel: { fontSize: 12 },
+        axisPointer: { type: 'shadow' }
+      },
+
+      yAxis: {
+        type: 'value',
+        name: '活跃商家数量（家）',
+        min: 0,
+        max: 800,
+        interval: 100,
+        nameTextStyle: { color: '#666', padding: [0, 0, 6, 0] },
+        axisLabel: { formatter: '{value}' },
+        splitLine: { lineStyle: { type: 'dashed', color: '#e6e6e6' } }
+      },
+
+      series: series,
+
+      grid: { left: 80, right: 60, top: 120, bottom: 60 }
+    };
+
+    myChart.setOption(option);
+
+    window.addEventListener('resize', function () {
+      myChart.resize();
+    });
+  </script>
+    
+</body>
+</html>
