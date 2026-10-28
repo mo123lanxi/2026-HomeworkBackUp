@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="main" style="width: 1000px;height:400px;"></div>
+
+    <script type="text/javascript">
+      var myChart = echarts.init(document.getElementById('main'));
+      var option = {
+        color: ["#4cabce", "#e5323e"],    // 设置图例颜色
+        dataset: {
+            source: [
+            ["type", "2016年12月", "2017年12月", "2018年12月", "2020年3月", "2020年12月", "2021年12月"],
+            ["农村地区互联网普及率", 33.10, 35.40, 38.40, 46.20, 55.90, 57.60],
+            ["城镇地区互联网普及率", 69.10, 71.00, 74.60, 76.50, 79.80, 81.30],
+            ]
+        },
+        grid: {     
+          show: true,   
+          left: "10%",  
+          top: "20%",   
+          right: "10%",  
+          bottom: "20%", 
+        },
+        xAxis: [{   
+            type: "category",  
+            show: true,             
+            position: "bottom",     
+            offset: 0,             
+            name: "日期",           
+            nameLocation: "end",    
+            axisTick: {         
+                show : true,    
+                inside: true,  
+            }
+        }],
+        yAxis: {    
+            name: '普及率/%',
+             axisLine: {    
+              show: true, 
+              },
+
+        },
+        title: {    
+            text: "互联网普及率",     
+            subtext: "分析互联网普及率对农村电商发展的影响",      
+            left: "center",     
+            show: true,                    
+        },
+        legend: {     
+            type: "plain",
+            show: true,     
+            left: "65%",    
+        },
+        series: [
+        {
+            type: "line",    
+            seriesLayoutBy: "row" 
+        },
+		{
+            type: "line",   
+            seriesLayoutBy: "row" 
+        }
+		]
+    }
+      
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>
