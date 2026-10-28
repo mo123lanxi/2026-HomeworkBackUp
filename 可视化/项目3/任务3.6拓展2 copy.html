@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+      
+      // 指定图表的配置项和数据
+      var option = {
+        title: {  // 标题组件
+          text: '销售数量前三的单品',
+          left:'center'
+        },
+        tooltip: {  // 提示框组件
+          trigger: 'item',
+          formatter: function (params) {
+            return params.seriesName + '<br/>' + params.name + '： 销售数量 ' + params.value[1] + ' 万件, 销售额 ' + params.value[2]+' 亿元';
+          }
+        },
+        legend: {   // 图例组件
+          data: ['苹果', '柑橘', '小龙虾'],
+          top: '6%'
+        },
+        xAxis: {
+          type: 'category',
+          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月', '9月', '10月', '11月', '12月' ],
+          name: '月份',
+          axisTick: {
+              inside: true,  // 将刻度线朝内
+              alignWithLabel: true  // 让刻度线与标签对齐
+            }
+        },
+        yAxis: {
+          type: 'value',
+          scale: true,
+          name: '销售数量/万件',
+          axisLine: { 
+              show: true, // 显示纵轴
+              },
+              axisTick: {
+                show: true, // 显示刻度
+                inside: true,  // 将刻度线朝内
+                }
+        },
+        series: [ 
+        { 
+            name: '小龙虾',
+            type: 'scatter',  // 设置图表类型为散点图
+            data: [
+              [0, 98, 176.3],  // [索引, 销售数量, 销售额]
+              [1, 50, 89.9],
+              [2, 110, 197.8],
+              [3, 302, 543.2],
+              [4, 555, 998.4],
+              [5, 506, 910.2],
+              [6, 218, 392.1],
+              [7, 105, 188.8],
+              [8, 78, 140.3],
+              [9, 69, 124.1],
+              [10, 120, 215.8],
+              [11, 136, 244.6],
+            ],
+            
+              // 设置气泡大小，根据销售额的平方根来计算
+            symbolSize: function (data) {
+            return Math.sqrt(data[2]);  
+            },
+            itemStyle: {
+            opacity: 0.7
+            },
+
+
+
+
+
+
+             
+          },
+        { 
+            name: '苹果',
+            type: 'scatter',  // 设置图表类型为散点图
+            data: [
+              [0, 331, 50.5], // [索引, 销售数量, 销售额]
+              [1, 452, 68.9],
+              [2, 720, 109.7],
+              [3, 678, 103.4],
+              [4, 556, 84.7], 
+              [5, 550, 83.8],
+              [6, 560, 85.3], 
+              [7, 932, 142.1],
+              [8, 1143, 174.3],
+              [9, 1849, 281.9], 
+              [10, 2791, 425.5],
+              [11, 2556, 389.6], 
+            ],
+            // 设置气泡大小，根据销售额的平方根来计算
+            symbolSize: function (data) {
+            return Math.sqrt(data[2]);  
+            },
+            itemStyle: {
+            opacity: 0.7
+            },
+
+
+
+
+
+              
+          },
+          {  
+            name: '柑橘',
+            type: 'scatter',    // 设置图表类型为散点图
+            data: [
+              [0, 2945, 370.4],   // [索引, 销售数量, 销售额]
+              [1, 1176, 147.9],
+              [2, 2001, 251.7],
+              [3, 1012, 127.3],
+              [4, 677, 85.1],
+              [5, 390, 49.0],
+              [6, 249, 31.3],
+              [7, 449, 56.5],
+              [8, 511, 64.3],
+              [9, 1099, 138.3],
+              [10, 2498, 314.2],
+              [11, 2788, 350.7],
+            ],
+            // 设置气泡大小，根据销售额的平方根来计算
+            symbolSize: function (data) {
+            return Math.sqrt(data[2]);  
+            },
+            itemStyle: {
+            opacity: 0.7
+            },
+
+
+
+
+
+              
+          }
+        ]
+      };
+      // 使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

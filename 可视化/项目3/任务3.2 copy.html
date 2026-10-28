@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 1000px;height:400px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {    // 标题组件
+          text: '不同种类商品的市场占比',
+          left:'center',
+        },
+        tooltip: {  // 提示框组件
+          trigger: 'item',
+          formatter: function (params) {
+          return params.name + ': ' + params.value + '%';
+          }
+        },
+        legend: {   // 图例组件
+            data: ['稻谷', '小麦', '玉米', '大豆',  '棉花', '马铃薯', '猪肉', '牛肉', '羊肉', '甘蔗', '禽蛋', '苹果', '柑桔', '西瓜'],
+            top: '8%',
+        },
+        series: [
+            {
+                type: 'pie',        // 设置图表类型为饼图
+                center: ["50%", "60%"],     // 设置饼图中心位置
+                data: [     // 饼图数据
+                    { value: 19.4, name: '稻谷' },
+                    { value: 12.8, name: '小麦' },
+                    { value: 27.0, name: '玉米' },
+                    { value: 2.2, name: '大豆' },
+                    { value: 0.5, name: '棉花' },
+                    { value: 1.6, name: '马铃薯' },
+                    { value: 5.4, name: '猪肉' },
+                    { value: 0.7, name: '牛肉' },
+                    { value: 0.4, name: '羊肉' },
+                    { value: 9.8, name: '甘蔗' },
+                    { value: 3.5, name: '禽蛋' },
+                    { value: 4.6, name: '苹果' },
+                    { value: 6.2, name: '柑桔' },
+                    { value: 5.9, name: '西瓜' }
+                ]
+            }
+        ]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

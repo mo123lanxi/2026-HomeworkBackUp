@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {    // 标题组件
+          text: '订单数量与销售额随时间的变化',
+          left:'center'
+        },
+        tooltip: {  // 提示框组件
+            trigger: 'axis',    // 设置触发类型为坐标轴触发
+            axisPointer: {      // 坐标轴指示器配置项
+                type: 'cross',  // 设置指示器类型为十字准线指示器
+                crossStyle: {    // 十字准线指示器样式
+                    color: '#999'
+                }
+            }
+        },
+        legend: {   // 图例组件
+            data: ['订单数量', '销售额'],   // 设置图例数据
+            top: '6%'
+        },
+        xAxis: [
+            {
+                type: 'category',   // 设置X轴类型为类目轴
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月', '9月', '10月', '11月', '12月' ],
+                axisPointer: {  // 坐标轴指示器配置项
+                    type: 'shadow'  // 设置指示器类型为阴影
+                },
+                axisTick: { // 坐标轴刻度相关设置
+                    inside: true,  // 将刻度线朝内
+                    alignWithLabel: true  // 让刻度线与标签对齐
+            }
+            }
+        ],
+        yAxis: [
+            {   // 第一个Y轴
+                type: 'value',
+                name: '订单数量/亿',
+                min: 0,      // 设置Y轴最小值
+                max: 5,     // 设置Y轴最大值
+                interval: 1,    // 设置Y轴刻度间隔
+                axisLine: { 
+                    show: true, // 显示纵轴
+                },
+                axisTick: {
+                    show: true, // 显示刻度
+                    inside: true,  // 将刻度线朝内
+                }
+            },
+            {   //第二个Y轴
+                type: 'value',
+                name: '销售额/亿元',
+                min: 0,         // 设置Y轴最小值
+                max: 25,         // 设置Y轴最大值
+                interval: 5,    // 设置第二个Y轴刻度间隔
+                axisLine: { 
+                    show: true, // 显示纵轴
+                    },
+                axisTick: {
+                    show: true, // 显示刻度
+                    inside: true,  // 将刻度线朝内
+                }
+            }
+        ],
+        series: [
+            {
+                 name: '订单数量',
+                 type: 'bar',   // 设置图表类型为柱状图
+                 tooltip: {     // 提示框组件
+                    valueFormatter: function (value) {
+                        return value + ' 亿';
+                    }
+                },
+                data: [0.9, 1.1, 1.03, 1.13, 1.29, 1.37, 1.29, 1.08, 1.07, 1.19, 1.41, 1.21],
+                markPoint: {     // 标记点组件
+                    data: [
+                        { type: 'max', name: 'Max' },
+                        { type: 'min', name: 'Min' }
+                    ]
+                },
+            },
+            {
+                name: '销售额',
+                type: 'line',   // 设置图表类型为折线图
+                yAxisIndex: 1,  // 设置折线图使用第二个Y轴
+                tooltip: {      // 提示框组件
+                    valueFormatter: function (value) {
+                        return value + ' 亿元';
+                    }
+                },
+                data: [12.9, 13.5, 14.0, 14.6, 15.1, 15.9, 15.3, 13.8, 13.1, 14.2, 16.3, 15.2],
+                markPoint: {    // 标记点组件
+                    data: [
+                        { type: 'max', name: 'Max' },
+                        { type: 'min', name: 'Min' }
+                    ]
+                },
+            }
+        ]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

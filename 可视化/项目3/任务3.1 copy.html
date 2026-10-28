@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 800px;height:400px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {  // 标题组件
+        title: {
+          text: '活跃商家数量',  // 主标题文本
+          left:'center'     // title 组件离容器左侧的距离
+        },
+        tooltip: {  // 提示框组件
+           // 使用 formatter 函数自定义 tooltip 内容
+           formatter: function (params) {
+            // params 是一个包含图表数据的对象
+            return params.name + ': ' + params.value + '万';
+          }
+        },
+        legend: {   // 图例组件
+            data: ['粮食作物商家', '蔬菜商家', '水果商家', '肉类商家', '油料作物商家'],
+            top: '10%'
+        },
+        xAxis: {
+            type: 'category',
+            name: '月份',
+            data: ['7月', '8月', '9月', '10月', '11月', '12月'],
+            axisTick: {
+              inside: true,  // 设置坐标轴刻度朝内
+              alignWithLabel: true  // 设置刻度线与标签对齐
+            }
+        },
+        yAxis: {
+             type: 'value',
+             name: '活跃商家/万',
+             axisLine: { 
+              show: true, // 显示纵轴
+              },
+              axisTick: { 
+                show: true, // 显示坐标轴刻度
+                inside: true,  // 设置坐标轴刻度朝内
+                }
+        },
+        series: [
+          {
+                name: '粮食作物商家',
+                type: 'line',   // 设置图表类型为折线图
+                step: 'start', // ======设置折线图为阶梯线图
+
+                data: [ 600.1, 640.0, 620.2, 689.3, 750.8, 699.7]
+            },
+            {
+                name: '蔬菜商家',
+                type: 'line',   // 设置图表类型为折线图
+                step: 'start', // ======设置折线图为阶梯线图
+
+                data: [ 508.1, 530.0, 510.2, 540.3, 633.8, 598.7]
+            },
+            {
+                name: '水果商家',
+                type: 'line',   // 设置图表类型为折线图
+                step: 'start', // ======设置折线图为阶梯线图
+
+                data: [ 560.1, 561.0, 543.2, 559.3, 596.8, 560.7]
+            },
+            {
+                name: '肉类商家',
+                type: 'line',   // 设置图表类型为折线图
+                step: 'start', // ======设置折线图为阶梯线图
+
+                data: [ 318.1, 332.0, 320.2, 340.3, 378.8, 329.7]
+            },
+            {
+                name: '油料作物商家',
+                type: 'line',   // 设置图表类型为折线图
+                step: 'start', // ======设置折线图为阶梯线图
+                 
+                data: [ 150.1, 156.0, 144.2, 138.3, 166.8, 154.7]
+            }
+        ]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

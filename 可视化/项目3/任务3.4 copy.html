@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 800px;height:400px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {  // 标题组件
+          text: '快递包裹数量',
+          left:'center'
+        },
+        tooltip: {    // 提示框组件
+          // 使用 formatter 函数自定义 tooltip 内容
+          formatter: function (params) {
+            // params 是一个包含图表数据的对象
+            return params.name + ': ' + params.value + '亿件';
+          }
+        },
+        legend: {   // 图例组件
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            top: '6%'
+        },
+        series: [
+            {
+                type: 'pie',    // 设置图表类型为饼图
+                center: ["50%", "55%"],   // 设置饼图的中心位置
+                data: [   // 数据
+                    { value: 8.67, name: '1月' },
+                    { value: 6.21, name: '2月' },
+                    { value: 8.54, name: '3月' },
+                    { value: 8.23, name: '4月' },
+                    { value: 8.64, name: '5月' },
+                    { value: 9.16, name: '6月' },
+                    { value: 8.27, name: '7月' },
+                    { value: 8.40, name: '8月' },
+                    { value: 9.21, name: '9月' },
+                    { value: 9.09, name: '10月' },
+                    { value: 10.4, name: '11月' },
+                    { value: 10.5, name: '12月' }   
+                ],
+                    roseType: 'radius',       
+                    radius: ['15%', '70%'],
+                 
+            }
+        ]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

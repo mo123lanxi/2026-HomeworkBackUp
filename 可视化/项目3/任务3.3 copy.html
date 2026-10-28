@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {
+          text: '订单来源占比',
+          left:'center'
+        },
+        tooltip: {    // 提示框组件
+           // 使用 formatter 函数自定义 tooltip 内容
+            formatter: function (params) {
+            // params 是一个包含图表数据的对象
+            return params.name + ': ' + params.value + '万个';
+          }
+        },
+        legend: {   // 图例组件
+            data: ['店铺下单', '直播下单', '小程序下单'],   // 图例数据
+            top: '6%'
+        },
+        toolbox: {  // 工具栏组件
+            show: true, // 显示工具栏
+            feature: {    // 设置各工具配置项
+                dataView: { show: true, readOnly: false },  // 数据视图工具，可编辑
+                restore: { show: true },  // 还原工具
+                saveAsImage: { show: true } // 保存为图片工具
+            }
+        },
+        series: [
+            {
+                type: 'pie',  // 设置图表类型为饼图
+                data: [       // 设置数据项
+                    { value: 2213, name: '店铺下单' },
+                    { value: 1141, name: '直播下单' },
+                    { value: 998, name: '小程序下单' }
+                ],
+                 // ==========饼图的内外半径，形成环形图===========
+                radius: ['40%', '70%'],
+
+
+
+            }
+        ]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>
