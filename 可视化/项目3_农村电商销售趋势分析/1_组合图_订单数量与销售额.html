@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>案例1 订单数量与销售额组合图</title>
+  <script src="js/echarts.js"></script>
+  <style>
+    body { margin: 0; padding: 20px; font-family:"DengXian", "等线",  "Microsoft YaHei", Arial, sans-serif; background: #f7f9fc; }
+     #watermark {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ctext x='100' y='100' font-size='16' fill='rgba(0,0,0,0.18)' text-anchor='middle' transform='rotate(-30 100 100)'%3E2512704025%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+  </style>
+</head>
+<body>
+
+
+  <div id="main" style="width:1000px; height:500px; display:block;"></div>
+  <div id="watermark"></div> 
+  <script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var months = ['1月', '2月', '3月', '4月', '5月', '6月',
+                  '7月', '8月', '9月', '10月', '11月', '12月'];
+    var orders  = [0.90, 1.10, 1.03, 1.13, 1.29, 1.37,
+                   1.29, 1.08, 1.07, 1.19, 1.41, 1.21]; 
+    var amounts = [12.9, 13.5, 14.0, 14.6, 15.1, 15.9,
+                   15.3, 13.8, 13.1, 14.2, 16.3, 15.2];  
+
+    function avg(arr) {
+      var sum = 0;
+      for (var i = 0; i < arr.length; i++) { sum += arr[i]; }
+      return sum / arr.length;
+    }
+    var avgOrder  = avg(orders);
+    var avgAmount = avg(amounts);
+
+    var option = {
+      // 标题配置
+      title: {
+        text: '农村电商订单数量与销售额月度变化',
+        left: 'center',
+        top: 10,
+        textStyle: { fontSize: 20, fontWeight: 'bold', color: '#2c3e50' },
+        subtextStyle: { fontSize: 12, color: '#999' }
+      },
+
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'cross', crossStyle: { color: '#999' } },
+        backgroundColor: 'rgba(50,50,50,0.85)',
+        borderColor: '#333',
+        textStyle: { color: '#fff' }
+      },
+
+      legend: {
+        data: ['订单数量（亿个）', '销售额（亿元）'],
+        top: 65,
+        itemGap: 30,
+        textStyle: { fontSize: 13 }
+      },
+
+      xAxis: [
+        {
+          type: 'category',
+          data: months,
+          name: '月份',
+          axisPointer: { type: 'shadow' },
+          axisLabel: { fontSize: 12 },
+          axisTick: { alignWithLabel: true }
+        }
+      ],
+
+      yAxis: [
+        {
+          type: 'value',
+          name: '订单数量（亿个）',
+          min: 0,
+          max: 1.6,
+          interval: 0.4,
+          axisLabel: { formatter: '{value}' },
+          nameTextStyle: { color: '#5470C6', padding: [0, 0, 6, 0] },
+          splitLine: { lineStyle: { type: 'dashed', color: '#e6e6e6' } }
+        },
+        {
+          type: 'value',
+          name: '销售额（亿元）',
+          min: 0,
+          max: 20,
+          interval: 5,
+          axisLabel: { formatter: '{value}' },
+          nameTextStyle: { color: '#EE6666', padding: [0, 0, 6, 0] },
+          splitLine: { show: false }
+        }
+      ],
+
+      series: [
+        {
+          name: '订单数量（亿个）',
+          type: 'bar',
+          yAxisIndex: 0,
+          data: orders,
+          barWidth: '30%',
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#284260' },
+            ]),
+            borderRadius: [2, 2, 0, 0]
+          },
+          emphasis: { itemStyle: { color: '#3F6585' } },
+          markPoint: {
+            symbolSize: 32,
+            data: [
+              { type: 'max', name: '最大值' },
+              { type: 'min', name: '最小值' }
+            ],
+            label: { fontSize: 9 },
+            itemStyle: { color: '#182733' }
+          },
+          markLine: {
+            symbol: ['none', 'none'],
+            data: [
+              { type: 'average', name: '订单均值' }
+            ],
+            lineStyle: { type: 'dashed', color: '#3d3c36', width: 1.5 },
+            label: {
+              formatter: '订单均值：{c} 亿个',
+              position: 'insideStartTop',
+              fontSize: 9,
+              color: '#8e968d'
+            }
+          }
+        },
+        {
+          name: '销售额（亿元）',
+          type: 'line',
+          yAxisIndex: 1,
+          data: amounts,
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 9,
+          lineStyle: { width: 3, color: '#8e968d' },
+          itemStyle: { color: '#8e968d', borderColor: '#fff', borderWidth: 2 },
+          markPoint: {
+            symbol: 'pin',
+            symbolSize: 32,
+            data: [
+              { type: 'max', name: '销售额峰值' },
+              { type: 'min', name: '销售额谷值' }
+            ],
+            label: { fontSize: 9 },
+            itemStyle: { color: '#8e968d' }
+          },
+          markLine: {
+            symbol: ['none', 'none'],
+            data: [
+              { type: 'average', name: '销售额均值' }
+            ],
+            lineStyle: { type: 'dashed', color: '#8e968d', width: 1.5 },
+            label: {
+              formatter: '销售额均值：{c} 亿元',
+              position: 'insideEndTop',
+              fontSize: 11,
+              color: '#8e968d'
+            }
+          }
+        }
+      ],
+
+      grid: { left: 80, right: 80, top: 120, bottom: 60 }
+    };
+
+    myChart.setOption(option);
+
+    window.addEventListener('resize', function () {
+      myChart.resize();
+    });
+  </script>
+</body>
+</html>
