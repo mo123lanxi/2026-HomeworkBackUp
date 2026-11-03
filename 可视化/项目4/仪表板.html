@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+    <style>
+    body { margin: 0; padding: 20px; font-family:"DengXian", "等线",  "Microsoft YaHei", Arial, sans-serif; background: #f7f9fc; }
+     #watermark {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ctext x='100' y='100' font-size='16' fill='rgba(0,0,0,0.18)' text-anchor='middle' transform='rotate(-30 100 100)'%3E2512704025%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+  </style>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width:1000px; height:500px; display:block;"></div>
+    <div id="watermark"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // gaugeData数组包含仪表盘的数据项
+      const gaugeData = [
+        {
+          value: 81.8,    // 仪表盘的值
+          name: '商品',   // 仪表盘的名称
+          title: {        // 仪表盘标题配置
+            offsetCenter: ['-40%', '80%'] // 标题位置偏移
+          },
+          detail: {       // 仪表盘详情配置
+            offsetCenter: ['-40%', '95%'] // 详情位置偏移
+          }
+        },
+        {
+          value: 75.2,    // 仪表盘的值
+          name: '物流',   // 仪表盘的名称
+          title: {        // 仪表盘标题配置
+            offsetCenter: ['0%', '80%']// 标题位置偏移
+          },
+          detail: {       // 仪表盘详情配置
+            offsetCenter: ['0%', '95%'] // 详情位置偏移
+          }
+        },
+        {
+          value: 72.0,    // 仪表盘的值
+          name: '售后',   // 仪表盘的名称
+          title: {        // 仪表盘标题配置
+            offsetCenter: ['40%', '80%']// 标题位置偏移
+          },
+          detail: {       // 仪表盘详情配置
+            offsetCenter: ['40%', '95%'] // 详情位置偏移
+          }
+        }
+      ];
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {    // 标题组件
+                text: '用户的满意度',
+                left:'center'
+            },
+        tooltip: {  // 提示框组件
+            trigger: 'item',
+           // 使用 formatter 函数自定义 tooltip 内容
+           formatter: function (params) {
+            // params 是一个包含图表数据的对象
+            return params.name + ': ' + params.value + '分';
+        }
+        },
+        series: [
+          {
+            type: 'gauge',  // 仪表盘组件
+            anchor: {   //锚点
+              show: true,       // 显示锚点
+              showAbove: true,  // 锚点显示在指针上方
+              size: 18,         // 锚点大小
+              itemStyle: {      // 锚点样式
+                color: '#FAC858'  // 锚点颜色
+              }
+            },
+            pointer: {    //指针
+              icon: 'path://M0,10 L10,0 L20,10 L10,20 Z',   // 指针形状
+              width: 8,   // 指针宽度
+              length: '95%',     // 指针长度
+              offsetCenter: [0, '8%']   // 指针位置偏移
+            },
+// ----------------进度条设置------------------------
+            progress: {   //进度条
+              show: true,     // 显示进度条
+              overlap: true,  //进度条会与指针重叠
+            },
+            axisLine: {   //坐标轴线
+              roundCap: true,   // 坐标轴线两端为圆角
+            },
+            data: gaugeData,  // 仪表盘数据
+            title: {     // 仪表盘标题样式
+              fontSize: 14  // 标题字体大小
+            },
+            detail: {   // 仪表盘详情样式
+              width: 40,      // 详情宽度
+              height: 14,     // 详情高度
+              fontSize: 14,   // 字体大小
+              color: '#fff',  // 字体颜色
+              backgroundColor: 'inherit',     // 背景颜色
+              borderRadius: 0,        // 边框圆角
+              formatter: '{value}分'  // 详情格式化
+            }
+          }
+        ]
+      };
+      
+      // 使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

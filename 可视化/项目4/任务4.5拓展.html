@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts</title>
+    <!-- 引入ECharts主库 -->
+    <script src='js/echarts.js'></script>
+    <!-- 引入ECharts词云插件 -->
+    <script src='js/echarts-wordcloud.min.js'></script>
+</head>
+<body>
+    <div id="main" style="width: 100%; height: 600px"></div>
+    <script type="text/javascript">
+        onload = function () {
+            var data = {
+               value: [
+                { name: "很差", value: 230 }, { name: "不好", value: 118 },
+                { name: "超级差", value: 236 }, { name: "没法比", value: 88 },
+                { name: "不负责", value: 143 }, { name: "苦的", value: 336 },
+                { name: "不便宜", value: 181 }, { name: "差评", value: 335 },
+                { name: "任性", value: 36 }, { name: "很青", value: 157 },
+                { name: "个头小", value: 222 }, { name: "不满意", value: 224 },
+                { name: "价格高", value: 331 }, { name: "一般", value: 251 },
+                { name: "太厚了", value: 139 }, { name: "未达预期", value: 124 },
+                { name: "还可以", value: 420 }, { name: "还好", value: 229 },
+                { name: "皮厚", value: 447 }, { name: "很快", value: 234 },
+                { name: "一般般", value: 342 }, { name: "有点贵", value: 442 },
+                { name: "挺好", value: 439 }, { name: "好评", value: 169 },
+                { name: "不行", value: 198 }, { name: "不好吃", value: 88 }, 
+                { name: "不错", value: 198 }, { name: "很酸", value: 178 },
+                { name: "很新鲜", value: 222 }, { name: "实惠", value: 261 },
+                { name: "满意", value: 191 }, { name: "均匀", value: 67 },
+                { name: "很快", value: 145 }, { name: "超赞", value: 1671 },
+                { name: "准时", value: 1544 }, { name: "好吃", value: 1229 },
+                { name: "信任", value: 1265 }, { name: "结实", value: 786 }, 
+                { name: "棒", value: 878 }, { name: "认真负责", value: 865 },
+                { name: "专业", value: 1453 }, { name: "过关", value: 675 },
+                { name: "神速", value: 1111 }, { name: "价格合理", value: 459 },
+                { name: "敬业", value: 476 }, { name: "用心", value: 598 },
+                { name: "热情", value: 523 }, { name: "回复快", value: 826 },
+                { name: "价格低", value: 224 }, { name: "信赖", value: 654 },
+                { name: "酸爽", value: 854 },{ name: "清香", value: 432 },
+                { name: "速度", value: 541 },{ name: "快速", value: 744 }
+               ],
+                // base64编码的图片字符串
+                image: "data:image/png;base64,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"
+            }	
+            
+             // 初始化echarts实例
+             var myChart = echarts.init(document.getElementById('main'));
+            // 创建一个新的Image对象
+            var maskImage = new Image();
+            // 设置Image对象的src属性为base64编码的图片字符串
+            maskImage.src = data.image
+ 
+            maskImage.onload = function(){
+                myChart.setOption( {
+                    title: {        // 标题组件
+                        text: '用户对产品或服务的评论',
+                        left:'center',
+                        top: '6%'
+                    },
+                    tooltip: { // 提示框组件
+                        formatter: function (params) {
+                            return params.name + ': ' + params.value + ' 条';
+                        }
+                    },
+                    series: [{
+                        type: 'wordCloud',      // 词云图组件
+                        //设置文字倾斜角度
+                        textRotation: [0, 45, 90, 135, -45, -90],
+                        textPadding: 3,         //设置文字之间的间距
+                        //设置文字的自动大小
+                        autoSize: { enable: true, minSize: 5 },
+                        maskImage: maskImage,   // 设置遮罩图片
+                        left: 'center',             // 设置组件的左边界
+                        top: 'center',              // 设置组件的上边界
+                        right: null,                // 设置组件的右边界
+                        bottom: null,               // 设置组件的下边界
+                        data: data.value            // 设置词云图的数据
+                    }]
+                })
+            }
+ 
+        }
+    </script>
+</body>
+</html>

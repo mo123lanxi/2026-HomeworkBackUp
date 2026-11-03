@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>ECharts 词云 - 蝴蝶</title>
+  <!-- 1. 引入 ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <!-- 2. 引入词云扩展（版本需与 echarts 兼容） -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    #main { width: 100%; height: 100%; }
+    body { margin: 0; padding: 20px; font-family:"DengXian", "等线",  "Microsoft YaHei", Arial, sans-serif; background: #f7f9fc; }
+     #watermark {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ctext x='100' y='100' font-size='16' fill='rgba(0,0,0,0.18)' text-anchor='middle' transform='rotate(-30 100 100)'%3E2512704025%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+</style>
+</head>
+<body>
+  <div id="main"></div>
+  <div id="watermark"></div>
+
+  <script>
+    // ========== 1. 初始化图表 ==========
+    var chart = echarts.init(document.getElementById('main'));
+
+    // ========== 2. 准备词云数据 ==========
+    var words = [
+                { name: "很差", value: 230 }, { name: "不好", value: 118 },
+                { name: "超级差", value: 236 }, { name: "没法比", value: 88 },
+                { name: "不负责", value: 143 }, { name: "苦的", value: 336 },
+                { name: "不便宜", value: 181 }, { name: "差评", value: 335 },
+                { name: "任性", value: 36 }, { name: "很青", value: 157 },
+                { name: "个头小", value: 222 }, { name: "不满意", value: 224 },
+                { name: "价格高", value: 331 }, { name: "一般", value: 251 },
+                { name: "太厚了", value: 139 }, { name: "未达预期", value: 124 },
+                { name: "还可以", value: 420 }, { name: "还好", value: 229 },
+                { name: "皮厚", value: 447 }, { name: "很快", value: 234 },
+                { name: "一般般", value: 342 }, { name: "有点贵", value: 442 },
+                { name: "挺好", value: 439 }, { name: "好评", value: 169 },
+                { name: "不行", value: 198 }, { name: "不好吃", value: 88 }, 
+                { name: "不错", value: 198 }, { name: "很酸", value: 178 },
+                { name: "很新鲜", value: 222 }, { name: "实惠", value: 261 },
+                { name: "满意", value: 191 }, { name: "均匀", value: 67 },
+                { name: "很快", value: 145 }, { name: "超赞", value: 1671 },
+                { name: "准时", value: 1544 }, { name: "好吃", value: 1229 },
+                { name: "信任", value: 1265 }, { name: "结实", value: 786 }, 
+                { name: "棒", value: 878 }, { name: "认真负责", value: 865 },
+                { name: "专业", value: 1453 }, { name: "过关", value: 675 },
+                { name: "神速", value: 1111 }, { name: "价格合理", value: 459 },
+                { name: "敬业", value: 476 }, { name: "用心", value: 598 },
+                { name: "热情", value: 523 }, { name: "回复快", value: 826 },
+                { name: "价格低", value: 224 }, { name: "信赖", value: 654 },
+                { name: "酸爽", value: 854 },{ name: "清香", value: 432 },
+                { name: "速度", value: 541 },{ name: "快速", value: 744 }
+               ];
+
+    // ========== 3. 关键：创建 Image 并设置 Base64 蒙版 ==========
+    // 这里用一个内嵌的 SVG 心形（转成 Base64），你也可以替换成自己的 PNG Base64
+    // 说明：SVG 中黑色心形 + 透明背景，算法会识别非白/非透明区域作为词云范围
+    var maskImage = new Image();
+
+    maskImage.src = 'hudie.png'
+    // ========== 4. 图片加载完成后设置 option ==========
+    maskImage.onload = function () {
+      var option = {
+        tooltip: {
+          show: true
+        },
+        series: [{
+          type: 'wordCloud',
+
+          // ★ 核心：指定蒙版图
+          maskImage: maskImage,
+
+          // 保持蒙版原始宽高比（echarts-wordcloud >= 2.1.0 支持）
+          keepAspect: true,
+
+          // 词云绘制区域（相对图表容器）
+          left: 'center',
+          top: 'center',
+          width: '90%',
+          height: '90%',
+
+          // 词条旋转角度范围：全部水平
+          rotationRange: [0, 0],
+          rotationStep: 45,
+
+          // 词间距
+          gridSize: 8,
+
+          // 绘制范围（允许词溢出蒙版，可设为 false 更贴合形状）
+          drawOutOfBound: false,
+
+          // 字号范围（根据 value 自动映射）
+          sizeRange: [14, 60],
+
+          // 文字样式
+          textStyle: {
+            fontFamily: 'sans-serif',
+            fontWeight: 'bold',
+            color: function () {
+              // 随机颜色
+              var colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de',
+                            '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
+              return colors[Math.floor(Math.random() * colors.length)];
+            }
+          },
+
+          // 鼠标悬停高亮
+          emphasis: {
+            focus: 'self',
+            textStyle: {
+              textShadowBlur: 10,
+              textShadowColor: '#333'
+            }
+          },
+
+          // 数据
+          data: words
+        }]
+      };
+
+      chart.setOption(option);
+    };
+
+    // 图片加载失败提示
+    maskImage.onerror = function () {
+      console.error('蒙版图加载失败，请检查 Base64 字符串');
+    };
+
+    // ========== 5. 响应式 ==========
+    window.addEventListener('resize', function () {
+      chart.resize();
+    });
+  </script>
+</body>
+</html>

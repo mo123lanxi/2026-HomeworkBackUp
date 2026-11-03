@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 1500px;height:550px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {        // 标题组件
+            text: '用户偏向的农产品',
+            left:'center'
+        },
+        tooltip: {      // 提示框组件
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c}万吨 ({d}%)'
+        },
+        legend: {       // 图例组件
+            data: ['水果', '肉类', '蔬菜', '水产', '西瓜', '柑橘','苹果','葡萄','柠檬','鸡肉', '牛肉', 
+                '羊肉', '辣椒', '红薯', '土豆', '玉米', '西红柿', '小龙虾', '生蚝', '淡水螺', '大闸蟹'],
+            top: '6%'
+        },
+        series: [
+            {
+                name: '种类',
+                type: 'pie',    // 系列类型为饼图
+                selectedMode: 'single',     // 系列类型为饼图
+                radius: [0, '30%'],         // 设置内外半径
+                center:['50%','50%'],       // 设置饼图的中心点
+                label: {
+                    position: 'inner',       // 设置标签位置为内部
+                    fontSize: 14
+                },
+                labelLine: {    // 标签引导线的设置
+                    show: false
+                },
+                data: [
+                    { value: 68059, name: '水果', selected: true }, // 设置水果种类为选中状态
+                    { value: 39247, name: '肉类' },
+                    { value: 49718, name: '蔬菜' },
+                    { value: 30770, name: '水产' }
+                ]
+            },
+            {
+                name: '品种',
+                type: 'pie',    // 系列类型为饼图
+                radius: ['45%', '60%'],     // 设置内外半径
+                center:['50%','50%'],        // 设置饼图的中心点
+                labelLine: {    // 标签引导线的设置
+                    length: 30
+                },
+                label: {        // 标签的设置
+                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}万吨  {per|{d}%}  ',
+                    backgroundColor: '#F6F8FC', // 设置标签背景色
+                    borderColor: '#8C8D8E',     // 设置标签边框颜色
+                    borderWidth: 1,             // 设置标签边框宽度
+                    borderRadius: 4,            // 设置标签圆角
+                    rich: {     // 富文本样式设置
+                        a: {
+                            color: '#6E7079',   // 设置文本颜色
+                            lineHeight: 22,     // 设置行高
+                            align: 'center'     // 设置对齐方式
+                        },
+                        hr: {
+                            borderColor: '#8C8D8E', // 设置水平线的颜色
+                            width: '100%',      // 设置水平线的宽度
+                            borderWidth: 1,     // 设置水平线的边框宽度
+                            height: 0           // 设置水平线的高度
+                        },
+                        b: {    // 品种名字的样式
+                            color: '#4C5058',   // 设置文本颜色
+                            fontSize: 14,       // 设置字体大小
+                            fontWeight: 'bold', // 设置字体加粗
+                            lineHeight: 33      // 设置行高
+                        },
+                        per: {
+                            color: '#fff',
+                            backgroundColor: '#4C5058',
+                            padding: [3, 4],    // 设置内边距
+                            borderRadius: 4     // 设置圆角
+                        }
+                    }
+                },
+                data: [
+                    { value: 20050, name: '西瓜' },
+                    { value: 17239, name: '柑橘' },
+                    { value: 14883, name: '苹果' },
+                    { value: 10456, name: '葡萄' },
+                    { value: 5431, name: '柠檬' },
+                    { value: 18993, name: '鸡肉' },
+                    { value: 11231, name: '牛肉' },
+                    { value: 9023, name: '羊肉' },
+                    { value: 10489, name: '辣椒' },
+                    { value: 10000, name: '红薯' },
+                    { value: 9887, name: '土豆' },
+                    { value: 9997, name: '玉米' },
+                    { value: 9345, name: '西红柿' },
+                    { value: 8973, name: '小龙虾' },
+                    { value: 6999, name: '生蚝' },
+                    { value: 7899, name: '淡水螺' },
+                    { value: 6899, name: '大闸蟹' }
+                ]
+            }
+        ]
+    };
+
+      // 使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+
+      // 高亮指定的数据图形
+    myChart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 1, // 第二个饼图的索引（品种）
+        dataIndex: 0    // 第一个数据项的索引（西瓜）
+    });
+
+     // 处理点击事件并且跳转到相应的百度搜索页面
+     myChart.on('click', function(params) {
+        // 当用户在图表上单击（按下并释放鼠标左键）时触发的鼠标事件
+        var clickType = 'click鼠标事件';    
+        var confirmResult = confirm(
+            '您通过' + clickType + '选择了 "' + params.name + '"，是否跳转到百度搜索页面？');
+        if (confirmResult) {
+            window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
+        }
+    });
+    </script>
+  </body>
+</html>

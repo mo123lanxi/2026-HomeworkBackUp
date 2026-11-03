@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 900px;height:500px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+      
+      // 指定图表的配置项和数据
+      var option = {
+        title: {        // 标题组件
+            text: '用户购买农产品时对于平台的考虑因素',
+            left:'center'
+        },
+        tooltip: {      // 提示框组件
+            trigger: 'item',
+            formatter: '{b}: {c}%'
+        },
+        legend: {       // 图例组件
+            data: ['知名度', '优惠活动', '售前售后服务水平', '价格水平',
+            '食品安全性', '正品保障', '产品质量', '商品丰富程度', '物流时效性'],
+            top: '8%', 
+        },
+        series: [
+            {
+                type: 'pie',        // 设置图表类型为饼图
+                center: ["50%", "60%"],     // 设置饼图中心位置
+                data: [     // 饼图数据
+                {
+                    value: 4.05,
+                    name: '知名度'
+                },
+                {
+                    value: 4.27,
+                    name: '优惠活动'
+                },
+                {
+                    value: 8.16,
+                    name: '售前售后服务水平'
+                },
+                {
+                    value: 8.38,
+                    name: '价格水平'
+                },
+                {
+                    value: 12.94,
+                    name: '食品安全性'
+                },
+                {
+                    value: 13.89,
+                    name: '正品保障'
+                },
+                {
+                    value: 15.49,
+                    name: '产品质量'
+                },
+                {
+                    value: 16.38,
+                    name: '商品丰富程度'
+                },
+                {
+                    value: 16.44,
+                    name: '物流时效性'
+                }
+            ],
+            }
+        ]
+    };
+
+      // 使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+
+     // 处理点击事件并且跳转到相应的百度搜索页面
+     myChart.on('click', function(params) {
+        // 当用户在图表上单击（按下并释放鼠标左键）时触发的鼠标事件
+        var clickType = 'click鼠标事件';    
+        var confirmResult = confirm(
+            '您通过' + clickType + '选择了 "' + params.name + '"，是否跳转到百度搜索页面？');
+        if (confirmResult) {
+            window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
+        }
+    });
+
+    // 处理点击事件并且跳转到相应的百度搜索页面
+    myChart.on('contextmenu', function(params) {
+        // 当用户在图表上右击（按下并释放鼠标右键）时触发的鼠标事件
+        var clickType = 'contextmenu鼠标事件';
+        var confirmResult = confirm(
+            '您通过' + clickType + '选择了 "' + params.name + '"，是否跳转到百度搜索页面？');
+        if (confirmResult) {
+            window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
+        }
+        // 阻止默认的右键菜单显示
+        event.preventDefault();
+    });
+
+    </script>
+  </body>
+</html>

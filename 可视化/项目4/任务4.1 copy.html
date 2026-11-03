@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 600px;height:500px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+      // 指定图表的配置项和数据
+      var option = {
+        title: {        // 标题组件
+            text: '部分地区的用户购买喜好',
+            left:'center'
+        },
+        tooltip: {      // 提示框组件
+            trigger: 'item',
+            // 提示框内容格式化函数
+            formatter: function (params) {
+                let indicator = option.radar.indicator;
+                let tooltipText = params.name + '<br/>';
+                for (let i = 0; i < params.value.length; i++) {
+                    tooltipText += indicator[i].name + ': ' + params.value[i] + ' 万吨<br/>';
+                }
+                return tooltipText;
+            }
+        },
+        legend: {       // 图例组件
+            data: [ '广东', '上海', '江苏', '浙江', '山东', '四川'],
+            top: '5%', 
+        },
+        radar: {        // 雷达图组件
+            indicator: [
+                { name: '东北大米', max: 1000},
+                { name: '软籽石榴', max: 1000 },
+                { name: '红枸杞', max: 1000 },
+                { name: '柠檬', max: 1000 },
+                { name: '酥梨', max: 1000 },
+                { name: '板栗', max: 1000 },
+                { name: '砂糖橘', max: 1000 },
+                { name: '红富士', max: 1000 },
+                { name: '红皮大蒜', max: 1000 },
+                { name: '沃柑', max: 1000 }
+            ],
+            center: ['50%', '55%'],
+            name: {
+                textStyle: {
+                    color: '#000', // 使用黑色文字
+                }
+            }
+        },
+        series: [
+            {
+                type: 'radar',       // 设置图表类型为雷达图
+                data: [ 
+                    {
+                        value: [650, 410, 790, 560, 560, 645, 823, 733, 731, 887],
+                        name: '广东'
+                    },
+                    {
+                        value: [560, 532, 482, 856, 543, 612, 723, 733, 543, 753],
+                        name: '上海'
+                    },
+                    {
+                        value: [590, 444, 491, 517, 523, 622, 512, 752, 732, 722],
+                        name: '江苏'
+                    },
+                    {
+                        value: [612, 612, 461, 563, 533, 643, 590, 640, 653, 630],
+                        name: '浙江'
+                    },
+                    {
+                        value: [632, 422, 492, 594, 743, 821, 664, 634, 624, 614],
+                        name: '山东'
+                    },
+                    {
+                        value: [568, 401, 494, 564, 499, 619, 675, 615, 523, 575],
+                        name: '四川'
+                    }
+                ]
+            }
+        ]
+    };
+
+      // 使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+
+     // 处理点击事件并且跳转到相应的百度搜索页面
+     myChart.on('click', function(params) {
+        // 当用户在图表上单击（按下并释放鼠标左键）时触发的鼠标事件
+        var clickType = 'click鼠标事件';    
+        var confirmResult = confirm(
+            '您通过' + clickType + '选择了 "' + params.name + '"，是否跳转到百度搜索页面？');
+        if (confirmResult) {
+            window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(params.name));
+        }
+    });
+     
+
+
+
+
+
+     
+    </script>
+  </body>
+</html>

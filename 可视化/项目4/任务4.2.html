@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.js"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" style="width: 100%;height:600px;"></div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {        // 标题组件
+            text: '部分地区的用户分布',
+            left:'center',
+            top: '5%'
+        },
+        tooltip: {      // 提示框组件
+            trigger: 'item',
+           // 使用 formatter 函数自定义 tooltip 内容
+           formatter: function (params) {
+            // params 是一个包含图表数据的对象
+            return params.name + ': ' + params.value + '亿人';
+        }
+        },
+        series: [   // 系列列表
+            {
+                type: 'treemap',    // 设置图表类型为矩形树图
+                itemStyle: {        // 设置矩形树图项的样式
+                    borderWidth: 1, // 设置矩形的边框宽度
+                    borderColor: '#fff', // 设置矩形的边框颜色
+                },
+                label: {
+                    show: true,         // 显示标签
+                    textStyle: {        // 标签文本的样式
+                        fontSize: 16    // 这里设置字体大小为16
+                        }
+                    },
+                data: [
+                    {
+                        name: '广东',   // 数据项名称
+                        value: 2.4,     // 数据项值
+                        children: [     // 广东的子项，包含各个城市的数据
+                            {name: '广州市', value: 0.357},
+                            {name: '深圳市', value: 0.337},
+                            {name: '珠海市', value: 0.047},
+                            {name: '汕头市', value: 0.106},
+                            {name: '佛山市', value: 0.183},
+                            {name: '韶关市', value: 0.054},
+                            {name: '湛江市', value: 0.135},
+                            {name: '肇庆市', value: 0.078},
+                            {name: '江门市', value: 0.091},
+                            {name: '茂名市', value: 0.118},
+                            {name: '惠州市', value: 0.115},
+                            {name: '梅州市', value: 0.073},
+                            {name: '汕尾市', value: 0.051},
+                            {name: '河源市', value: 0.053},
+                            {name: '阳江市', value: 0.044},
+                            {name: '清远市', value: 0.075},
+                            {name: '东莞市', value: 0.2},
+                            {name: '中山市', value: 0.084},
+                            {name: '潮州市', value: 0.048},
+                            {name: '揭阳市', value: 0.106},
+                            {name: '云浮市', value: 0.045}
+                        ]
+                    },
+                    {
+                        name: '浙江',   // 数据项名称
+                        value: 0.79,    // 数据项值
+                        children: [     // 浙江的子项，包含各个城市的数据
+                            {name: '杭州市', value: 0.144},
+                            {name: '宁波市', value: 0.117},
+                            {name: '温州市', value: 0.118},
+                            {name: '绍兴市', value: 0.065},
+                            {name: '湖州市', value: 0.041},
+                            {name: '嘉兴市', value: 0.067},
+                            {name: '金华市', value: 0.086},
+                            {name: '衢州市', value: 0.027},
+                            {name: '台州市', value: 0.081},
+                            {name: '丽水市', value: 0.030},
+                            {name: '舟山市', value: 0.014}
+                        ]
+                    },
+                    {
+                        name: '北京',   // 数据项名称
+                        value: 0.302,   // 数据项值
+                    },
+                ]
+            }
+        ]
+    };
+
+      // 使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>
